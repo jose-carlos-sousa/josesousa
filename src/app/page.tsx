@@ -1,52 +1,224 @@
-import Image from "next/image";
+'use client';
+
+import { useEffect, useState } from 'react';
 
 export default function Home() {
-	return (
-		<div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-			<main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-				<Image className="dark:invert" src="/next.svg" alt="Next.js logo" width={180} height={38} priority />
-				<ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-					<li className="mb-2 tracking-[-.01em]">
-						Get started by editing{" "}
-						<code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-							src/app/page.tsx
-						</code>
-						.
-					</li>
-					<li className="tracking-[-.01em]">Save and see your changes instantly.</li>
-				</ol>
+	const [activeSection, setActiveSection] = useState('about');
 
-				<div className="flex gap-4 items-center flex-col sm:flex-row">
+	useEffect(() => {
+		const observer = new IntersectionObserver(
+			(entries) => {
+				entries.forEach((entry) => {
+					if (entry.isIntersecting) {
+						setActiveSection(entry.target.id);
+					}
+				});
+			},
+			{ threshold: 0.5 }
+		);
+
+		const sections = document.querySelectorAll('section[id]');
+		sections.forEach((section) => observer.observe(section));
+
+		return () => sections.forEach((section) => observer.unobserve(section));
+	}, []);
+
+	return (
+		<main className="min-h-screen px-6 pb-16 pt-28">
+			<nav className="fixed inset-x-0 top-4 z-50">
+				<div className="mx-auto flex w-fit items-center gap-2 rounded-full border border-zinc-200 bg-background/90 p-1 shadow-sm backdrop-blur dark:border-zinc-800">
 					<a
-						className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-						href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-						target="_blank"
-						rel="noopener noreferrer"
+						href="#about"
+						className={`rounded-full px-3 py-2 text-xs font-medium transition sm:px-4 sm:text-sm ${
+							activeSection === 'about'
+								? 'bg-zinc-900 text-white dark:bg-white dark:text-zinc-900'
+								: 'text-zinc-700 hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-800 dark:hover:text-white'
+						}`}
 					>
-						Read our docs
+						About
+					</a>
+					<a
+						href="#work"
+						className={`rounded-full px-3 py-2 text-xs font-medium transition sm:px-4 sm:text-sm ${
+							activeSection === 'work'
+								? 'bg-zinc-900 text-white dark:bg-white dark:text-zinc-900'
+								: 'text-zinc-700 hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-800 dark:hover:text-white'
+						}`}
+					>
+						Work
+					</a>
+					<a
+						href="#projects"
+						className={`rounded-full px-3 py-2 text-xs font-medium transition sm:px-4 sm:text-sm ${
+							activeSection === 'projects'
+								? 'bg-zinc-900 text-white dark:bg-white dark:text-zinc-900'
+								: 'text-zinc-700 hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-800 dark:hover:text-white'
+						}`}
+					>
+						Projects
+					</a>
+					<a
+						href="#extracurriculars"
+						className={`rounded-full px-3 py-2 text-xs font-medium transition sm:px-4 sm:text-sm ${
+							activeSection === 'extracurriculars'
+								? 'bg-zinc-900 text-white dark:bg-white dark:text-zinc-900'
+								: 'text-zinc-700 hover:bg-zinc-100 hover:text-zinc-900 dark:text-zinc-300 dark:hover:bg-zinc-800 dark:hover:text-white'
+						}`}
+					>
+						Extracurriculars
 					</a>
 				</div>
-			</main>
-			<footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-				<a
-					className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-					href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-					target="_blank"
-					rel="noopener noreferrer"
-				>
-					<Image aria-hidden src="/file.svg" alt="File icon" width={16} height={16} />
-					Learn
-				</a>
-				<a
-					className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-					href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-					target="_blank"
-					rel="noopener noreferrer"
-				>
-					<Image aria-hidden src="/globe.svg" alt="Globe icon" width={16} height={16} />
-					Go to nextjs.org →
-				</a>
-			</footer>
-		</div>
+			</nav>
+
+<section id="about" className="mx-auto flex min-h-screen w-full max-w-3xl scroll-mt-20 items-center">
+			<div className="flex w-full flex-col items-center gap-6 text-center">
+				<img
+					src="/me.jpg"
+					alt="José"
+					className="h-40 w-40 shrink-0 rounded-full object-cover sm:h-48 sm:w-48"
+				/>
+				<div>
+					<h1 className="text-3xl font-semibold tracking-tight sm:text-4xl md:text-5xl">
+						José Sousa
+					</h1>
+					<p className="mt-2 text-base font-medium text-zinc-600 dark:text-zinc-400">
+						Computer Engineering Student @ FEUP
+					</p>
+					<p className="mx-auto mt-3 max-w-md text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
+						Passionate about using tech to solve real world problems and make life easier.
+						</p>
+					</div>
+				</div>
+			</section>
+
+			<section id="work" className="mx-auto flex min-h-screen w-full max-w-4xl scroll-mt-20 flex-col justify-center py-16">
+				<h2 className="mb-6 text-2xl font-semibold tracking-tight sm:text-3xl">Work</h2>
+				<div className="space-y-5">
+					<div className="rounded-lg border border-zinc-200 p-5 dark:border-zinc-800">
+						<div>
+							<h3 className="text-lg font-semibold">Intern</h3>
+							<p className="text-sm text-zinc-600 dark:text-zinc-400">RAPDM · Summer 2025</p>
+						</div>
+						<ul className="mt-3 space-y-1.5 text-sm leading-relaxed text-zinc-600 dark:text-zinc-300">
+							<li>• Built a platform for Amazon sellers to track reviews, ratings, and finances</li>
+							<li>• Developed the backend with Django and integrated the Amazon SP-API</li>
+							<li>• Created a responsive frontend using React</li>
+						</ul>
+						<div className="mt-3 flex flex-wrap gap-1.5">
+							<span className="rounded-full bg-zinc-100 px-2.5 py-1 text-xs font-medium dark:bg-zinc-800">Django</span>
+							<span className="rounded-full bg-zinc-100 px-2.5 py-1 text-xs font-medium dark:bg-zinc-800">React</span>
+							<span className="rounded-full bg-zinc-100 px-2.5 py-1 text-xs font-medium dark:bg-zinc-800">Coolify</span>
+						</div>
+					</div>
+
+					<div className="rounded-lg border border-zinc-200 p-5 dark:border-zinc-800">
+						<div>
+							<h3 className="text-lg font-semibold">Intern</h3>
+							<p className="text-sm text-zinc-600 dark:text-zinc-400">Altice Labs · Summer 2024</p>
+						</div>
+						<ul className="mt-3 space-y-1.5 text-sm leading-relaxed text-zinc-600 dark:text-zinc-300">
+							<li>• Developed a web app to manage JIRA projects across multiple instances</li>
+							<li>• Implemented an API proxy for seamless cross-instance integration</li>
+							<li>• Automated version-closure checks to reduce manual work</li>
+						</ul>
+						<div className="mt-3 flex flex-wrap gap-1.5">
+							<span className="rounded-full bg-zinc-100 px-2.5 py-1 text-xs font-medium dark:bg-zinc-800">Go</span>
+							<span className="rounded-full bg-zinc-100 px-2.5 py-1 text-xs font-medium dark:bg-zinc-800">React</span>
+							<span className="rounded-full bg-zinc-100 px-2.5 py-1 text-xs font-medium dark:bg-zinc-800">Tailwind CSS</span>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<section id="projects" className="mx-auto flex min-h-screen w-full max-w-4xl scroll-mt-20 flex-col justify-center py-16">
+				<h2 className="mb-6 text-2xl font-semibold tracking-tight sm:text-3xl">Projects</h2>
+				<div className="space-y-5">
+					<div className="rounded-lg border border-zinc-200 p-5 dark:border-zinc-800">
+						<div className="flex items-start justify-between">
+							<h3 className="text-lg font-semibold">Compiler for a Subset of Java</h3>
+							<span className="rounded-full bg-emerald-100 px-2.5 py-1 text-xs font-semibold text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400">
+								99.3%
+							</span>
+						</div>
+						<ul className="mt-3 space-y-1.5 text-sm leading-relaxed text-zinc-600 dark:text-zinc-300">
+							<li>• Developed a compiler with optimizations including constant folding, constant propagation, dead code elimination, and register allocation</li>
+							<li>• Achieved a 99.3% pass rate on the test suite</li>
+						</ul>
+						<div className="mt-3 flex flex-wrap gap-1.5">
+							<span className="rounded-full bg-zinc-100 px-2.5 py-1 text-xs font-medium dark:bg-zinc-800">ANTLR</span>
+							<span className="rounded-full bg-zinc-100 px-2.5 py-1 text-xs font-medium dark:bg-zinc-800">Java</span>
+						</div>
+					</div>
+
+					<div className="rounded-lg border border-zinc-200 p-5 dark:border-zinc-800">
+						<div className="flex items-start justify-between">
+							<h3 className="text-lg font-semibold">ProGram</h3>
+							<span className="rounded-full bg-emerald-100 px-2.5 py-1 text-xs font-semibold text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400">
+								19.2/20
+							</span>
+						</div>
+						<p className="mt-3 text-sm leading-relaxed text-zinc-600 dark:text-zinc-300">
+							Developed a social media platform for programmers
+						</p>
+						<div className="mt-3 flex flex-wrap gap-1.5">
+							<span className="rounded-full bg-zinc-100 px-2.5 py-1 text-xs font-medium dark:bg-zinc-800">Laravel</span>
+							<span className="rounded-full bg-zinc-100 px-2.5 py-1 text-xs font-medium dark:bg-zinc-800">JavaScript</span>
+							<span className="rounded-full bg-zinc-100 px-2.5 py-1 text-xs font-medium dark:bg-zinc-800">Blade</span>
+							<span className="rounded-full bg-zinc-100 px-2.5 py-1 text-xs font-medium dark:bg-zinc-800">Tailwind CSS</span>
+						</div>
+					</div>
+
+					<div className="rounded-lg border border-zinc-200 p-5 dark:border-zinc-800">
+						<div className="flex items-start justify-between">
+							<h3 className="text-lg font-semibold">UFC Fight Prediction</h3>
+							<span className="rounded-full bg-emerald-100 px-2.5 py-1 text-xs font-semibold text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400">
+								20/20
+							</span>
+						</div>
+						<ul className="mt-3 space-y-1.5 text-sm leading-relaxed text-zinc-600 dark:text-zinc-300">
+							<li>• Trained, evaluated, and compared multiple machine learning models to predict outcomes of UFC fights</li>
+							<li>• Achieved a prediction accuracy of 71%</li>
+						</ul>
+						<div className="mt-3 flex flex-wrap gap-1.5">
+							<span className="rounded-full bg-zinc-100 px-2.5 py-1 text-xs font-medium dark:bg-zinc-800">Python</span>
+							<span className="rounded-full bg-zinc-100 px-2.5 py-1 text-xs font-medium dark:bg-zinc-800">Pandas</span>
+							<span className="rounded-full bg-zinc-100 px-2.5 py-1 text-xs font-medium dark:bg-zinc-800">Scikit-learn</span>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<section id="extracurriculars" className="mx-auto flex min-h-screen w-full max-w-4xl scroll-mt-20 flex-col justify-center py-16">
+				<h2 className="mb-6 text-2xl font-semibold tracking-tight sm:text-3xl">Extracurriculars</h2>
+				<div className="space-y-5">
+					<div className="rounded-lg border border-zinc-200 p-5 dark:border-zinc-800">
+						<div>
+							<h3 className="text-lg font-semibold">Telemetry Team Member</h3>
+							<p className="text-sm text-zinc-600 dark:text-zinc-400">Porto Space Team · Aug 2025 - Present</p>
+						</div>
+					</div>
+
+					<div className="rounded-lg border border-zinc-200 p-5 dark:border-zinc-800">
+						<div>
+							<h3 className="text-lg font-semibold">Member</h3>
+							<p className="text-sm text-zinc-600 dark:text-zinc-400">NIAEFEUP · 2023 - Present</p>
+						</div>
+						<p className="mt-3 text-sm leading-relaxed text-zinc-600 dark:text-zinc-300">
+							Contributed to projects like TTS, NIJOBS, and ENEI 2025 website
+						</p>
+						<div className="mt-3 flex flex-wrap gap-1.5">
+							<span className="rounded-full bg-zinc-100 px-2.5 py-1 text-xs font-medium dark:bg-zinc-800">React</span>
+							<span className="rounded-full bg-zinc-100 px-2.5 py-1 text-xs font-medium dark:bg-zinc-800">Node.js</span>
+							<span className="rounded-full bg-zinc-100 px-2.5 py-1 text-xs font-medium dark:bg-zinc-800">Tailwind CSS</span>
+							<span className="rounded-full bg-zinc-100 px-2.5 py-1 text-xs font-medium dark:bg-zinc-800">MongoDB</span>
+							<span className="rounded-full bg-zinc-100 px-2.5 py-1 text-xs font-medium dark:bg-zinc-800">PostgreSQL</span>
+							<span className="rounded-full bg-zinc-100 px-2.5 py-1 text-xs font-medium dark:bg-zinc-800">Django</span>
+							<span className="rounded-full bg-zinc-100 px-2.5 py-1 text-xs font-medium dark:bg-zinc-800">Adonis.js</span>
+							<span className="rounded-full bg-zinc-100 px-2.5 py-1 text-xs font-medium dark:bg-zinc-800">Shadcn</span>
+						</div>
+					</div>
+				</div>
+			</section>
+		</main>
 	);
 }
